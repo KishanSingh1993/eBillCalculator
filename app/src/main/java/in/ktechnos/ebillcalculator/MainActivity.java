@@ -66,21 +66,26 @@ public class MainActivity extends AppCompatActivity {
                     }
                     else {
 
-                        int finalReading = Integer.parseInt(binding.etCurrentReading.getText().toString()) - Integer.parseInt(binding.etPreviousReading.getText().toString());
+                        if (currentMeterReading<lastMeterReading) {
 
-                        calculateBill(finalReading);
+                            binding.etCurrentReading.setError("Please Enter A Valid Data");
 
-                        binding.finalReport.setText(String.format("Your Electricity Bill For This Month Is:- $%d ", calculateBill(finalReading)));
+                        }
+                        else {
 
-                        binding.btSave.setVisibility(View.VISIBLE);
+                            int finalReading = Integer.parseInt(binding.etCurrentReading.getText().toString()) - Integer.parseInt(binding.etPreviousReading.getText().toString());
+
+                            calculateBill(finalReading);
+
+                            binding.finalReport.setText(String.format("Your Electricity Bill For This Month Is:- $%d ", calculateBill(finalReading)));
+
+                            binding.btSave.setVisibility(View.VISIBLE);
+                        }
 
                     }
 
-                } else if (currentMeterReading<lastMeterReading) {
-
-                    binding.etCurrentReading.setError("Please Enter A Valid Data");
-
-                } else
+                }
+                else
                 {
                     binding.etCurrentReading.setError("Please Enter Data");
                     binding.etPreviousReading.setError("Please Enter Data");
