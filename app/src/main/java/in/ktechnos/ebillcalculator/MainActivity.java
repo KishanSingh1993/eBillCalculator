@@ -45,6 +45,10 @@ public class MainActivity extends AppCompatActivity {
                     binding.etPreviousReading.setText(models.get(getIndex).getCurrentReadings());
                     lastMeterReading = Integer.parseInt(models.get(getIndex).getCurrentReadings());
                 }
+                else {
+
+                    binding.etPreviousReading.setText("0");
+                }
 
             }
         });
