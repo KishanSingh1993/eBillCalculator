@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
     private ViewModal viewmodal;
+    private int lastMeterReading,currentMeterReading;
     public static final String EXTRA_ID = "in.ktechnos.ebillcalculator.EXTRA_ID";
     public static final String SERVICE_NUMBER = "in.ktechnos.ebillcalculator.SERVICE_NUMBER";
     public static final String CURRENT_READING = "in.ktechnos.ebillcalculator.CURRENT_READING";
@@ -38,8 +39,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(List<MeterModal> models) {
                 //when the data is changed in our models we are adding that list to our adapter class.
-                Log.d("Last Data",models.get(0).getServiceNumber());
-                binding.etPreviousReading.setText(models.get(0).getCurrentReadings());
+                Log.d("Last Data",models.size()+"");
+                int getIndex = models.size() -1;
+                binding.etPreviousReading.setText(models.get(getIndex).getCurrentReadings());
+                lastMeterReading = Integer.parseInt(models.get(getIndex).getCurrentReadings());
             }
         });
 
@@ -51,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
                 String currentText=binding.etCurrentReading.getText().toString().trim();
                 String previousText=binding.etPreviousReading.getText().toString().trim();
                 String serviceText=binding.serviceNumber.getText().toString().trim();
+
+                currentMeterReading = Integer.parseInt(binding.etCurrentReading.getText().toString());
 
                 if(!currentText.equals("") && !previousText.equals("") && !serviceText.equals(""))
                 {
@@ -71,9 +76,11 @@ public class MainActivity extends AppCompatActivity {
 
                     }
 
-                }
+                } else if (currentMeterReading<lastMeterReading) {
 
-                else
+                    binding.etCurrentReading.setError("Please Enter A Valid Data");
+
+                } else
                 {
                     binding.etCurrentReading.setError("Please Enter Data");
                     binding.etPreviousReading.setError("Please Enter Data");
