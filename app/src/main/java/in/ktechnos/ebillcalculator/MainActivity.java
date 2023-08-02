@@ -2,6 +2,7 @@ package in.ktechnos.ebillcalculator;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.annotation.SuppressLint;
@@ -10,6 +11,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import java.util.List;
 
 import in.ktechnos.ebillcalculator.databinding.ActivityMainBinding;
 
@@ -30,6 +33,15 @@ public class MainActivity extends AppCompatActivity {
 
         binding.btSave.setVisibility(View.GONE);
         viewmodal = ViewModelProviders.of(this).get(ViewModal.class);
+
+        viewmodal.getAllCourses().observe(this, new Observer<List<MeterModal>>() {
+            @Override
+            public void onChanged(List<MeterModal> models) {
+                //when the data is changed in our models we are adding that list to our adapter class.
+                Log.d("Last Data",models.get(0).getServiceNumber());
+                binding.etPreviousReading.setText(models.get(0).getCurrentReadings());
+            }
+        });
 
         binding.btSubmit.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("DefaultLocale")
