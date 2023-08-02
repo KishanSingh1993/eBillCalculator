@@ -40,9 +40,12 @@ public class MainActivity extends AppCompatActivity {
             public void onChanged(List<MeterModal> models) {
                 //when the data is changed in our models we are adding that list to our adapter class.
                 Log.d("Last Data",models.size()+"");
-                int getIndex = models.size() -1;
-                binding.etPreviousReading.setText(models.get(getIndex).getCurrentReadings());
-                lastMeterReading = Integer.parseInt(models.get(getIndex).getCurrentReadings());
+                if(models.size()!=0){
+                    int getIndex = models.size() -1;
+                    binding.etPreviousReading.setText(models.get(getIndex).getCurrentReadings());
+                    lastMeterReading = Integer.parseInt(models.get(getIndex).getCurrentReadings());
+                }
+
             }
         });
 
