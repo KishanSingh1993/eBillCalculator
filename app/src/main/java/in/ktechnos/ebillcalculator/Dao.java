@@ -38,6 +38,6 @@ public interface Dao {
     @Query("SELECT * FROM course_table ORDER BY currentReadings ASC")
     LiveData<List<MeterModal>> getAllCourses();
 
-    @Query("SELECT * FROM course_table WHERE id = :id")
-    MeterModal findByUserId(String id);
+//    @Query("SELECT * FROM course_table WHERE id = :id")
+//    MeterModal findByUserId(String id);
 }
