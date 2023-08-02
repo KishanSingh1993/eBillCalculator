@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">EBill Calculator</string>
+    <string name="please_enter_current_reading">Please Enter Current Reading</string>
+    <string name="please_enter_previous_reading">Please Enter Previous Reading</string>
+    <string name="calculate">Calculate</string>
+    <string name="customer_service_number">Customer Service Number</string>
+    <string name="save">Save</string>
+</resources>
