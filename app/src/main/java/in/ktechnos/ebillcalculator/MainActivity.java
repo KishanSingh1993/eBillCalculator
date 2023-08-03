@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     private ViewModal viewmodal;
     private int lastMeterReading,currentMeterReading;
+    private String serviceNumber;
     public static final String EXTRA_ID = "in.ktechnos.ebillcalculator.EXTRA_ID";
     public static final String SERVICE_NUMBER = "in.ktechnos.ebillcalculator.SERVICE_NUMBER";
     public static final String CURRENT_READING = "in.ktechnos.ebillcalculator.CURRENT_READING";
@@ -43,7 +44,9 @@ public class MainActivity extends AppCompatActivity {
                 if(models.size()!=0){
                     int getIndex = models.size() -1;
                     binding.etPreviousReading.setText(models.get(getIndex).getCurrentReadings());
+                    binding.serviceNumber.setText(models.get(getIndex).getServiceNumber());
                     lastMeterReading = Integer.parseInt(models.get(getIndex).getCurrentReadings());
+                    serviceNumber = models.get(getIndex).getServiceNumber();
                 }
                 else {
 
@@ -62,11 +65,11 @@ public class MainActivity extends AppCompatActivity {
                 String previousText=binding.etPreviousReading.getText().toString().trim();
                 String serviceText=binding.serviceNumber.getText().toString().trim();
 
-                currentMeterReading = Integer.parseInt(binding.etCurrentReading.getText().toString());
+
 
                 if(!currentText.equals("") && !previousText.equals("") && !serviceText.equals(""))
                 {
-
+                    currentMeterReading = Integer.parseInt(binding.etCurrentReading.getText().toString());
                     if(!(serviceText.length() == 10)){
 
                         binding.serviceNumber.setError("Please Enter A Valid Service Number");
@@ -80,19 +83,36 @@ public class MainActivity extends AppCompatActivity {
                         }
                         else {
 
-                            int finalReading = Integer.parseInt(binding.etCurrentReading.getText().toString()) - Integer.parseInt(binding.etPreviousReading.getText().toString());
+                            if (!binding.serviceNumber.getText().toString().equals(serviceNumber)){
 
-                            calculateBill(finalReading);
+                                binding.serviceNumber.setError("Wrong Service Number");
+                            }
+                            else {
 
-                            binding.finalReport.setText(String.format("Your Electricity Bill For This Month Is:- $%d ", calculateBill(finalReading)));
+                                int finalReading = Integer.parseInt(binding.etCurrentReading.getText().toString()) - Integer.parseInt(binding.etPreviousReading.getText().toString());
 
-                            binding.btSave.setVisibility(View.VISIBLE);
+                                calculateBill(finalReading);
+
+                                binding.finalReport.setText(String.format("Your Electricity Bill For This Month Is:- $%d ", calculateBill(finalReading)));
+
+                                binding.btSave.setVisibility(View.VISIBLE);
+                            }
                         }
 
                     }
 
                 }
-                else
+                else if(currentText.equals("") && !previousText.equals("") && !serviceText.equals("")){
+                    binding.etCurrentReading.setError("Please Enter Data");
+                }
+                else if (!currentText.equals("") && previousText.equals("") && !serviceText.equals("")) {
+
+                    binding.etPreviousReading.setError("Please Enter Data");
+                } else if (!currentText.equals("") && !previousText.equals("") && serviceText.equals("")) {
+
+                    binding.serviceNumber.setError("Please Enter Data");
+
+                } else
                 {
                     binding.etCurrentReading.setError("Please Enter Data");
                     binding.etPreviousReading.setError("Please Enter Data");
